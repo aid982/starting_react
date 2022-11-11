@@ -8,10 +8,10 @@ padding: 0.2rem;
 font-size: large;
 `;
 const Filter = () => {
-    const { filter, filterSet } = useContext(PokemonContext)
+    const { filter, dispatch } = useContext(PokemonContext)
     return (
         <>
-            <Input value={filter} type="text" onChange={(evt) => (filterSet(evt.target.value))}></Input>
+            <Input value={filter} type="text" onChange={(evt) => (dispatch({type:'SET_FILTER',payload:evt.target.value}))}></Input>
         </>);
 
 }
