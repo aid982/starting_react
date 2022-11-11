@@ -5,6 +5,8 @@ import PokemonRow from './Components/PokemonRow';
 import PokemonTable from './Components/PokemonTable';
 import PokemonContext from './PokemonContext';
 import { useContext, useEffect, useState } from 'react';
+import Filter from './Components/Filter';
+import { PokemonInfo } from './Components/PokemonInfo';
 
 const Title = styled.h1`
   text-align: center;
@@ -23,13 +25,14 @@ const TwoColumnLayout = styled.div`
 
 function App() {
   const [pokemon, pokemonSet] = useState(null);
+  const [filter, filterSet] = useState("");
+  const [selectedPokemon, selectedPokemonSet] = useState(null);
   useEffect(() => {
     fetch('/starting_react/pokemon.json')
       .then((resp) => (
         resp.json()
       )).then((data) => (pokemonSet(data)));
-  }, []);
-  console.log(pokemon)
+  }, []);  
   if (!pokemon) {
     return <div>Loading data</div>;
   }
@@ -41,12 +44,18 @@ function App() {
       <Title>Pokemon Search</Title>
       <PokemonContext.Provider
         value={{
-          pokemon
+          pokemon,
+          filter,
+          filterSet,
+          selectedPokemon,
+          selectedPokemonSet
         }}>
         <PageContainer>
+          <Filter />
           <TwoColumnLayout>
             <PokemonTable />
           </TwoColumnLayout>
+          <PokemonInfo/>
         </PageContainer>
       </PokemonContext.Provider>
 

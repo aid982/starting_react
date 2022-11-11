@@ -3,21 +3,25 @@ import PokemonContext from "../PokemonContext";
 import PokemonRow from "./PokemonRow";
 
 const PokemonTable = () => {
-    const {pokemon} = useContext(PokemonContext);
-    return (<table width="100%">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Type</th>
-            </tr>
+    const { pokemon, filter,selectedPokemonSet } = useContext(PokemonContext);    
+    return (
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                </tr>
 
-        </thead>
-        <tbody>
-            {pokemon&&pokemon.map((pokemon) => (
-                <PokemonRow key={pokemon.id} pokemon={pokemon}></PokemonRow>
-            ))}
+            </thead>
+            <tbody>
+                {
+                    pokemon.filter(({ name: { english } }) => (english.toLocaleLowerCase().includes(filter))).slice(0,20).map((pokemon) =>
+                        (<PokemonRow key={pokemon.id} pokemon={pokemon} onClick={(pokemon)=>selectedPokemonSet(pokemon)} />)
+                    )
 
-        </tbody>
-    </table>);
+                }
+
+            </tbody>
+        </table>);
 }
 export default PokemonTable;
